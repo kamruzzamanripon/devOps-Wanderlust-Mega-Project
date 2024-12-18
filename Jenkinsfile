@@ -32,7 +32,7 @@ pipeline {
         stage('Git: Code Checkout') {
             steps {
                 script{
-                    code_checkout("https://github.com/LondheShubham153/Wanderlust-Mega-Project.git","main")
+                    code_checkout("https://github.com/kamruzzamanripon/devOps-Wanderlust-Mega-Project","main")
                 }
             }
         }
@@ -97,11 +97,11 @@ pipeline {
             steps{
                 script{
                         dir('backend'){
-                            docker_build("wanderlust-backend-beta","${params.BACKEND_DOCKER_TAG}","trainwithshubham")
+                            docker_build("wanderlust-backend-beta","${params.BACKEND_DOCKER_TAG}","kamruzzamanripon")
                         }
                     
                         dir('frontend'){
-                            docker_build("wanderlust-frontend-beta","${params.FRONTEND_DOCKER_TAG}","trainwithshubham")
+                            docker_build("wanderlust-frontend-beta","${params.FRONTEND_DOCKER_TAG}","kamruzzamanripon")
                         }
                 }
             }
@@ -110,8 +110,8 @@ pipeline {
         stage("Docker: Push to DockerHub"){
             steps{
                 script{
-                    docker_push("wanderlust-backend-beta","${params.BACKEND_DOCKER_TAG}","trainwithshubham") 
-                    docker_push("wanderlust-frontend-beta","${params.FRONTEND_DOCKER_TAG}","trainwithshubham")
+                    docker_push("wanderlust-backend-beta","${params.BACKEND_DOCKER_TAG}","kamruzzamanripon") 
+                    docker_push("wanderlust-frontend-beta","${params.FRONTEND_DOCKER_TAG}","kamruzzamanripon")
                 }
             }
         }
@@ -119,7 +119,7 @@ pipeline {
     post{
         success{
             archiveArtifacts artifacts: '*.xml', followSymlinks: false
-            build job: "Wanderlust-CD", parameters: [
+            build job: "Wanderlust_CD", parameters: [
                 string(name: 'FRONTEND_DOCKER_TAG', value: "${params.FRONTEND_DOCKER_TAG}"),
                 string(name: 'BACKEND_DOCKER_TAG', value: "${params.BACKEND_DOCKER_TAG}")
             ]
